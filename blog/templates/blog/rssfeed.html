@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Subscribe via RSS/Atom Feed:</h2>
+    <p>Copy this link and paste it to your Feed Reader. To get latest posts.</p>
+    <ul>
+        <li><a href="{{rss}}">Copy RSS Feed Link</a></li>
+        <li><a href="{{atom}}">Copy Atom Feed Link</a></li>
+    </ul>
+    <br>
+    <form action="{%url 'blog:home'%}" method="get">
+        <button type="submit">Back to home</button>
+    </form>
+</body>
+
+</html>

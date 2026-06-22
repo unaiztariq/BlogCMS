@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>{{post.title}}</h2>
+    <p>Author: {{post.author}}</p>
+    <p>Category: {{post.category}}</p>
+    <p>Content: {{ post.content|safe }}</p>
+    <p>Published: {{post.updated_at}}</p>
+    
+    <h3>COMMENTS:</h3>
+    {%for comment in comment_list%}
+        
+        <p>{{comment.content}}</p>
+        <h5>Commented by: {{comment.profile.name}}</h5>
+        <p>---------------------------</p>
+        <br>
+    {%endfor%}
+    
+    <h4>Add Comment:</h4>
+    <form action="" method="post">
+        {% csrf_token %}
+        <p>{{form.as_p}}</p>
+        <button type="submit">Comment</button>
+    </form>
+    <a href="{% url 'blog:home'%}">Back to main page</a>
+</body>
+</html>

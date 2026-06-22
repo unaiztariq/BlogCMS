@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Profile of {{profile.name}}</h1>
+    <h2>Details: </h2>
+    <ul>
+        
+        <li>Age: {{profile.age}}</li>
+        <li>Bio: {{profile.bio}}</li>
+        <li>Contact At: {{profile.email}}</li>
+    </ul>
+        <form action="{% url 'blog:profile' slug=user.profile.slug%}"  method="get">
+            <button type="submit">Update</button>
+        </form>
+    <h2>My Posts: </h2>
+    
+    {% for post in posts %}
+        {% if post.author == user.profile %}
+            
+            <a href="{% url 'blog:detail' slug=post.slug%}">Name: {{post}}, Status:{{post.status}}&nbsp;</a>
+            <form action="{% url 'blog:update_post' slug=post.slug%}" style="display:inline;" method="get">
+                
+                <button type="submit">Update</button>
+            </form>
+            <form action="{% url 'blog:delete_post' slug=post.slug%}" style="display:inline;" method="get">
+                
+                <button type="submit">Delete</button>
+
+            </form>
+            <br>
+        {% endif %}
+    {% endfor %}
+   <h3>My Followers:</h3>
+    <ul>
+    {% for f in my_followers %}
+        <li>{{f.follower.name}}</li>
+        
+    {% endfor %}
+    </ul>
+    <h3>My Followings:</h3>
+    <ul>
+    {% for fo in my_followings %}
+        <li>{{fo.follows_to.name}}</li>
+        
+    {% endfor %}
+    </ul>
+
+</body>
+</html>

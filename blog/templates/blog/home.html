@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    
+</head>
+<body>
+    <h1>BLOG APPLICATION</h1>
+    {% if user.is_superuser %}
+        <a href="{% url 'blog:approval_comment' %}">Comment Approvals::({{comments}} Pending)</a>
+        
+    {%endif%}
+    <br><br>
+    <a href="{% url 'blog:dashboard' slug=user.profile.slug %}">My Dashboard </a>
+    
+    <h2>Create a Post:</h2>
+    <a href="{% url 'blog:create_post' %}"> create post</a>
+    <h2>Published Posts: </h2>
+    <form action="" method="get">
+        <select name="cat" id="1">
+            <option  id="1" value="all">All</option>
+            {% for cat in category %}
+                <option  id="1" value="{{cat.name}}">{{cat.name}}</option>
+
+            {% endfor %}
+        </select>
+
+        <button type="submit">Show</button>
+    </form>
+    
+    <ul>
+    {% for post in posts %}
+        {% if post.status == "published" %}
+            {% if user.is_superuser %}
+                
+                    <li><a href="{% url 'blog:detail' slug=post.slug%}">{{post}}</a> by <a href="{% url 'blog:detail_profile' slug=post.author.slug%}">{{post.author.name}}</a>
+                    <form action="{% url 'blog:update_post' slug=post.slug%}" style="display:inline;" method="get">
+                    
+                    <button type="submit">Update</button>
+                </form>
+                <form action="{% url 'blog:delete_post' slug=post.slug%}" style="display:inline;" method="get">
+                    
+                    <button type="submit">Delete</button>
+
+                </form></li>
+                <br>
+            {%else%}
+                {% if post.author == user.profile %}
+                    <li><a href="{% url 'blog:detail' slug=post.slug%}">{{post}}</a> by <a href="{% url 'blog:detail_profile' slug=post.author.slug%}">{{post.author.name}}</a>
+                    <form action="{% url 'blog:update_post' slug=post.slug%}" style="display:inline;" method="get">
+                    
+                    <button type="submit">Update</button>
+                </form>
+                <form action="{% url 'blog:delete_post' slug=post.slug%}" style="display:inline;" method="get">
+                    
+                    <button type="submit">Delete</button>
+
+                </form></li>
+                <br>
+                {%else%}
+                    <li><a href="{% url 'blog:detail' slug=post.slug%}">{{post}}</a></li>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    </ul>
+    {% if rsscategory %}
+        <form method="get" action="{% url 'blog:rssfeed' %}">
+            <input type="hidden" name="rsscategory" value="{{rsscategory}}">
+            <p>For {{rsscategory}} Category Posts:</p>
+            <button type="submit">Subscribe via RSS/Atom Feed</button>
+        </form>
+    {% else %}
+        <form method="get" action="{% url 'blog:rssfeed' %}">
+            
+            <p>For All Posts:</p>
+            <button type="submit">Subscribe via RSS/Atom Feed</button>
+        </form>
+    {%endif%}
+    
+
+    
+    
+    {% if user.profile.subscribed %}
+
+        <form method="post" action="{% url 'blog:unsubscribe' %}">
+            {% csrf_token %}
+            <button type="submit">Unsubscribe</button>
+        </form>
+
+    {% else %}
+
+        <form method="post" action="{% url 'blog:subscribe' %}">
+            {% csrf_token %}
+            <button type="submit">Subscribe</button>
+        </form>
+
+    {% endif %}
+
+
+        
+
+        <br>
+
+
+
+    <form action="{% url 'blog:logout' %}" method="post">
+        {% csrf_token %}
+    <button type="submit">Logout</button>
+    </form>
+
+    
+</body>
+</html>

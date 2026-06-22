@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Comments Approval:</h2>
+        <form method="post" action="{% url 'blog:success_comment' pk=1 %}">
+            {% csrf_token %}
+            
+            <button type="submit" name="button" value="all">Approve All.</button>
+        </form>
+    {% for c in comments %}
+        <p>Comment content:{{c.content}}</p>
+        <p>Commented on:{{c.post.title}}</p>
+        <p>Commented by:{{c.profile.name}}</p>
+        
+        <form action="{% url 'blog:success_comment' pk=c.id %}"  method="post">
+             {% csrf_token %}
+                    <button type="submit" name="button" value="single">Approve</button>
+                </form>
+        <p>--------------</p>
+        <br>
+    {% endfor %}
+</body>
+</html>

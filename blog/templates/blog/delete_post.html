@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action=""  style="display:inline;" method="post">
+        {% csrf_token %}
+        <h2>Are You Sure, You Want To Delete This?</h2>
+        <button type="submit"> Delete</button>
+    </form>
+
+    <form action="{% url 'blog:home' %}" style="display:inline;" method="get">
+        {% csrf_token %}
+        <button type="submit">No</button>
+    </form>
+</body>
+</html>

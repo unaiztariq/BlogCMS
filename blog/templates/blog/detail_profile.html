@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Profile of {{profile.name}}</h1>
+    <h2>Details: </h2>
+    <ul>
+        
+        <li>Age: {{profile.age}}</li>
+        <li>Bio: {{profile.bio}}</li>
+        <li>Contact At: {{profile.email}}</li>
+    </ul>
+
+    
+    <h3>{{profile.name}}'s Posts:</h3>
+    <ul>
+    {% for post in posts %}
+        <li><a href="{url 'blog:post' slug=post.slug}">{{post.title}}</a></li>
+        
+    {% endfor %}
+    </ul>
+
+    {% if follower %}
+        <form action="{% url 'blog:unfollow' slug=profile.slug %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="following" value="{{profile}}">
+            <button type="submit">Unfollow</button>
+        </form>
+    {% else %}
+        <form action="{% url 'blog:follow' slug=profile.slug %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="following" value="{{profile}}">
+            <button type="submit">Follow</button>
+        </form>
+    {% endif %}
+    <h3>Followers:</h3>
+    <ul>
+    {% for f in my_followers %}
+        <li>{{f.follower.name}}</li>
+        
+    {% endfor %}
+    </ul>
+    <h3>Followings:</h3>
+    <ul>
+    {% for fo in my_followings %}
+        <li>{{fo.follows_to.name}}</li>
+        
+    {% endfor %}
+    </ul>
+</body>
+</html>
